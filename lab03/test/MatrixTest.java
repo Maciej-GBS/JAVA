@@ -1,4 +1,5 @@
 import static junit.framework.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
 
 public class MatrixTest
 {
@@ -14,17 +15,9 @@ public class MatrixTest
 	public void asArray() {
 		double d[][] = {{1,3}, {5,6,1,4}, {2,2}};
 		Matrix m = new Matrix(d);
+		double actual[][] = {{1,3,0,0}, {5,6,1,4}, {2,2,0,0}};
 		double mAsArr[][] = m.asArray();
-		for (var i = 0; i < mAsArr.length; i++)
-		{
-			for (var j = 0; j < mAsArr[i].length; j++)
-			{
-				if (d.length <= i || d[i].length <= j)
-					assertEquals(mAsArr[i][j], 0.0, 1e-7);
-				else
-					assertEquals(mAsArr[i][j], d[i][j], 1e-7);
-			}
-		}
+		assertArrayEquals(mAsArr, actual);
 	}
 
 	@org.junit.Test
@@ -52,10 +45,13 @@ public class MatrixTest
 
 	@org.junit.Test
 	public void reshape() {
-	}
-
-	@org.junit.Test
-	public void shape() {
+		Matrix m = new Matrix(5,5);
+		try {
+			m.reshape(7, 5);
+			fail();
+		} catch (RuntimeException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	@org.junit.Test
@@ -92,5 +88,9 @@ public class MatrixTest
 
 	@org.junit.Test
 	public void dot() {
+		Matrix A = new Matrix(new double[][] {{1,3},{1,2},{0,1}}), B = new Matrix(new double[][] {{1,0},{0,1}});
+		Matrix result = A.dot(B);
+		double actual[] = {1,3, 2,5, 2,6};
+		assertArrayEquals(result.data, actual, 1e-7);
 	}
 }

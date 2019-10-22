@@ -34,7 +34,7 @@ public class Matrix {
 		cols = 0;
 		for (var i = 0; i < rows; i++)
 			if (cols < d[i].length)
-				cols = d[0].length;
+				cols = d[i].length;
 		data = new double[rows * cols];
 		for (var r = 0; r < rows; r++)
 		{
