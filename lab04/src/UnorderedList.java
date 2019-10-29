@@ -7,6 +7,7 @@ public class UnorderedList {
 	UnorderedList addItem(String item)
 	{
 		items.add(item);
+		return this;
 	}
 
 	void writeHTML(PrintStream out)
