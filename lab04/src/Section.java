@@ -1,11 +1,11 @@
-import java.util.List;
+import java.util.*;
 import java.io.PrintStream;
 
 public class Section {
 	String title;
 	List<Paragraph> paragraphs = new ArrayList<Paragraph>();
 
-	Section(String title = "")
+	Section(String title)
 	{
 		this.title = title;
 	}
@@ -13,6 +13,7 @@ public class Section {
 	Section setTitle(String title)
 	{
 		this.title = title;
+		return this;
 	}
 
 	Section addParagraph(String text)
@@ -29,9 +30,8 @@ public class Section {
 	void writeHTML(PrintStream out)
 	{
 		out.printf("<h2>%s</h2>\n", title);
-		var iter = paragraphs.iterator();
-		while (iter.hasNext())
-			iter.next().writeHTML(out);
+		for (Paragraph p : paragraphs)
+			p.writeHTML(out);
 	}
 }
 

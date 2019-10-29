@@ -1,10 +1,15 @@
-import java.util.List;
+import java.util.*;
 import java.io.PrintStream;
 
 public class Document {
 	String title = "";
 	Photo photo = new Photo("");
 	List<Section> sections = new ArrayList<Section>();
+
+	Document(String title)
+	{
+		this.title = title;
+	}
 
 	Document setTitle(String title)
 	{
@@ -34,8 +39,7 @@ public class Document {
 	{
 		out.printf("<h1>%s</h1>\n", title);
 		photo.writeHTML(out);
-		var iter = sections.iterator();
-		while (iter.hasNext())
-			iter.next().writeHTML(out);
+		for (Section s : sections)
+			s.writeHTML(out);
 	}
 }

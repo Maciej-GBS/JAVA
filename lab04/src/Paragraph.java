@@ -1,10 +1,9 @@
-import java.util.List;
 import java.io.PrintStream;
 
 public class Paragraph {
 	String content;
 
-	Paragraph(String text = "")
+	Paragraph(String text)
 	{
 		content = text;
 	}
@@ -12,6 +11,7 @@ public class Paragraph {
 	Paragraph setContent(String text)
 	{
 		content = text;
+		return this;
 	}
 
 	void writeHTML(PrintStream out)
