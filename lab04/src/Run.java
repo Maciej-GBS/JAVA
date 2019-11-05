@@ -15,7 +15,7 @@ public class Run {
 					.addItem("C++")
 					.addItem("Java")
 					.setContent("Umiejętności"));
-		cv.writeHTML(System.out);
-		//cv.writeHTML(new PrintStream("cv.html", "UTF-8"));
+		//cv.writeHTML(System.out);
+		cv.writeHTML(new PrintStream("cv.html", "utf-8"));
 	}
 }
