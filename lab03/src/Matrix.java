@@ -12,7 +12,7 @@ public class Matrix {
 		data = m.data;
 	}
 
-	public Matrix(double w, int rows, int cols)
+	Matrix(double w, int rows, int cols)
 	{
 		this.rows = rows;
 		this.cols = cols;
@@ -172,5 +172,13 @@ public class Matrix {
 			}
 		}
 		return ext;
+	}
+
+	public double frobenius()
+	{
+		double sum = 0;
+		for (var x : data)
+			sum += x * x;
+		return Math.sqrt(sum);
 	}
 }

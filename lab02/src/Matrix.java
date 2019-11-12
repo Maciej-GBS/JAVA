@@ -12,7 +12,7 @@ public class Matrix {
 		data = m.data;
 	}
 
-	public Matrix(double w, int rows, int cols)
+	Matrix(double w, int rows, int cols)
 	{
 		this.rows = rows;
 		this.cols = cols;
@@ -34,7 +34,7 @@ public class Matrix {
 		cols = 0;
 		for (var i = 0; i < rows; i++)
 			if (cols < d[i].length)
-				cols = d[0].length;
+				cols = d[i].length;
 		data = new double[rows * cols];
 		for (var r = 0; r < rows; r++)
 		{
@@ -47,7 +47,7 @@ public class Matrix {
 	{
 		double[][] array = new double[rows][cols];
 		for (var i = 0; i < data.length; i++)
-			array[i/rows][i%cols] = data[i];
+			array[i/cols][i%cols] = data[i];
 		return array;
 	}
 
@@ -161,7 +161,6 @@ public class Matrix {
 		if (cols != m.rows)
 			throw new RuntimeException(String.format("%d x %d matrix cannot be dot multiplied with %d x %d",rows,cols,m.rows,m.cols));
 		Matrix ext = new Matrix(this.rows, m.cols);
-		var j = 0;
 		for (var c = 0; c < this.cols; c++)
 		{
 			var sum = 0.0;
@@ -169,11 +168,18 @@ public class Matrix {
 			{
 				for (var i = 0; i < m.cols; i++)
 					sum += m.get(c, i) * get(r, c);
+				ext.set(r, c, sum);
 			}
-			ext.set(j, c, sum);
-			j++;
 		}
 		return ext;
+	}
+
+	public double frobenius()
+	{
+		double sum = 0;
+		for (var x : data)
+			sum += x * x;
+		return Math.sqrt(sum);
 	}
 
 	public static void main(String[] args)
