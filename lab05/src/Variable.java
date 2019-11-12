@@ -34,7 +34,9 @@ public class Variable extends Node {
     @Override
     public Node diff(Variable v)
     {
-        // zaimplementuj???
-        return this;
+        if (v.name.equals(name))
+            return new Constant(sign);
+        else
+            return new Constant(0);
     }
 }

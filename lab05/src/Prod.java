@@ -75,7 +75,20 @@ public class Prod extends Node {
     @Override
     public Node diff(Variable v)
     {
-        // zaimplementuj
-        return new Prod();
+        Sum s = new Sum();
+        for (var i = 0; i < args.size(); i++)
+        {
+            Prod m = new Prod();
+            for (var j = 0; j < args.size(); j++)
+            {
+                Node a = args.get(j);
+                if (j != i)
+                    m.mul(a.diff(v));
+                else
+                    m.mul(a);
+            }
+            s.add(m);
+        }
+        return s;
     }
 }

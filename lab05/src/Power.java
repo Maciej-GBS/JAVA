@@ -46,6 +46,6 @@ public class Power extends Node {
     @Override
     public Node diff(Variable v)
     {
-        return new Power(arg.diff(v), p*evaluate());
+        return (new Prod(sign*p, new Power(arg, p - 1))).mul(arg.diff(v));
     }
 }

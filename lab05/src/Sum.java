@@ -67,7 +67,16 @@ public class Sum extends Node {
     @Override
     public Node diff(Variable v)
     {
-        // zaimplementuj
-        return new Sum();
+        Node zero = new Constant(0);
+        Sum cpy = new Sum();
+        for (var a : args)
+        {
+            Node d = a.diff(v);
+            if (d != zero)
+                cpy.add(d);
+        }
+        if (cpy.args.size() < 1)
+            cpy.add(zero);
+        return cpy;
     }
 }
