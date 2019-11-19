@@ -16,22 +16,22 @@ public class CSVReader {
      * @param delimiter - separator pól
      * @param hasHeader - czy plik ma wiersz nagłówkowy
      */
-    public CSVReader(String filename, String delimiter, boolean hasHeader) throws FileNotFoundException
+    public CSVReader(String filename, String delimiter, boolean hasHeader) throws FileNotFoundException, IOException
     {
-	this(new FileReader(filename), delimiter, hasHeader);
+	    this(new FileReader(filename), delimiter, hasHeader);
     }
 
-    public CSVReader(String filename, String delimiter) throws FileNotFoundException
+    public CSVReader(String filename, String delimiter) throws FileNotFoundException, IOException
     {
-        this(filename, delimiter, false);
+        this(filename, delimiter, true);
     }
 
-    public CSVReader(String filename) throws FileNotFoundException
+    public CSVReader(String filename) throws FileNotFoundException, IOException
     {
-        this(filename, ",", false);
+        this(filename, ",", true);
     }
 
-    public CSVReader(Reader freader, String delimiter, boolean hasHeader) throws FileNotFoundException
+    public CSVReader(Reader freader, String delimiter, boolean hasHeader) throws FileNotFoundException, IOException
     {
         this.reader = new BufferedReader(freader);
         this.delimiter = delimiter;
@@ -61,8 +61,19 @@ public class CSVReader {
 	String line = reader.readLine();
 	if (line == null || line.length() < 1)
 		return false;
-	System.out.printf("DEBUG : %s\n", line);
-	current = line.split(delimiter);
+	String[] quotes = line.split("[,]{0,1}[\"']{1}[,]{0,1}");
+	List<String> fields = new ArrayList<>();
+	for (var i = 0; i < quotes.length; i++) {
+	    if (i % 2 == 1) {
+	        fields.add(quotes[i]);
+	        continue;
+        }
+		String[] part = quotes[i].split(delimiter);
+		if (part.length > 0)
+			fields.addAll(Arrays.asList(part));
+	}
+    current = new String[fields.size()];
+	current = fields.toArray(current);
 	return true;
     }
 
@@ -74,6 +85,36 @@ public class CSVReader {
     public String get(String index)
     {
 	    return current[columnLabelsToInt.get(index)];
+    }
+
+    public int getInt(String index)
+    {
+        return Integer.parseInt(get(index));
+    }
+
+    public long getLong(String index)
+    {
+        return Long.parseLong(get(index));
+    }
+
+    public double getDouble(String index)
+    {
+        return Double.parseDouble(get(index));
+    }
+
+    public int getInt(int index)
+    {
+        return Integer.parseInt(get(index));
+    }
+
+    public long getLong(int index)
+    {
+        return Long.parseLong(get(index));
+    }
+
+    public double getDouble(int index)
+    {
+        return Double.parseDouble(get(index));
     }
 
     public List<String> getColumnLabels()
@@ -88,18 +129,18 @@ public class CSVReader {
 
     public boolean isMissing(int index)
     {
+	    if (index < 0 || index >= current.length)
+		    return true;
 	    String val = get(index);
-	    return val.length() > 0;
+	    return val.length() <= 0;
     }
 
     public boolean isMissing(String index)
     {
-	    return isMissing(columnLabelsToInt.get(index));
-    }
-
-    public int getInt(int index)
-    {
-	    return 0;
+        if (columnLabelsToInt.containsKey(index))
+	        return isMissing(columnLabelsToInt.get(index));
+        else
+            return true;
     }
 
     public static void main(String[] args) throws IOException
