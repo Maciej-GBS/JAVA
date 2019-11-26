@@ -8,6 +8,6 @@ public class AdminUnit {
 	BoundingBox bbox = new BoundingBox();
 
 	public String toString() {
-		return String.format("%s level:%d pop:%f.2 area:%f.2 den:%f.2\n", name, adminLevel, population, area, density);
+		return String.format("%s level:%d pop:%f area:%f den:%f\n", name, adminLevel, population, area, density);
 	}
 }

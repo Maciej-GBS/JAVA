@@ -89,32 +89,44 @@ public class CSVReader {
 
     public int getInt(String index)
     {
+	if (isMissing(index))
+		return 0;
         return Integer.parseInt(get(index));
     }
 
     public long getLong(String index)
     {
+	if (isMissing(index))
+		return 0;
         return Long.parseLong(get(index));
     }
 
     public double getDouble(String index)
     {
+	if (isMissing(index))
+		return 0;
         return Double.parseDouble(get(index));
     }
 
     public int getInt(int index)
     {
+	if (isMissing(index))
+		return 0;
         return Integer.parseInt(get(index));
     }
 
     public long getLong(int index)
     {
+	if (isMissing(index))
+		return 0;
         return Long.parseLong(get(index));
     }
 
     public double getDouble(int index)
     {
-        return Double.parseDouble(get(index));
+	if (isMissing(index))
+		return 0;
+	return Double.parseDouble(get(index));
     }
 
     public List<String> getColumnLabels()
