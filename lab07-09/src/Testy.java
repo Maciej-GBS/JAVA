@@ -15,8 +15,8 @@ public class Testy {
 		System.out.println("Query:");
 		AdminUnitQuery query = new AdminUnitQuery()
 				.selectFrom(ls)
-				.where(a->a.area>1000)
-				.or(a->a.name.startsWith("Sz"))
+				//.where(a->a.area>1000)
+				.where(a->a.name.startsWith("Sz"))
 				.sort((a,b)->Double.compare(a.area,b.area))
 				.limit(100);
 		query.execute().list(System.out);
