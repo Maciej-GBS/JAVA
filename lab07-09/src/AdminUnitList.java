@@ -16,10 +16,10 @@ public class AdminUnitList {
 			au.area = reader.getDouble("area");
 			au.density = reader.getDouble("density");
 			au.bbox = new BoundingBox();
-			au.bbox.xmin = reader.getDouble("x1");
-			au.bbox.xmax = reader.getDouble("x3");
-			au.bbox.ymin = reader.getDouble("y1");
-			au.bbox.ymax = reader.getDouble("y3");
+			au.bbox.addPoint(reader.getDouble("x1"), reader.getDouble("y1"));
+			au.bbox.addPoint(reader.getDouble("x2"), reader.getDouble("y2"));
+			au.bbox.addPoint(reader.getDouble("x3"), reader.getDouble("y3"));
+			au.bbox.addPoint(reader.getDouble("x4"), reader.getDouble("y4"));
 			units.add(au);
 		}
 	}
@@ -52,5 +52,16 @@ public class AdminUnitList {
 				output.units.add(a);
 		}
 		return output;
+	}
+
+	public AdminUnitList getNeighbours(AdminUnit unit, double maxDistance) {
+		throw new NotImplementedException();
+		AdminUnitList aul = new AdminUnitList();
+		// iterate all O(n^2)
+		if (units[0].adminLevel == unit.adminLevel)
+			if (units[0].bbox.distanceTo(unit.bbox) < maxDistance || units[0].bbox.intersects(unit.bbox))
+				aul.units.add(units[0]);
+		return aul;
+		// R tree
 	}
 }
