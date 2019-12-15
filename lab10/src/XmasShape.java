@@ -20,12 +20,21 @@ public interface XmasShape {
 	*/
 	default void draw(Graphics2D g2d) {
 		// Get the current transform
-		AffineTransform saveAT = g2d.getTransform();
+		AffineTransform savedT = new AffineTransform(g2d.getTransform());
 		// Perform transformation
 		transform(g2d);
 		// Render
 		render(g2d);
 		// Restore original transform
-		g2d.setTransform(saveAT);
+		g2d.setTransform(savedT);
+	}
+
+	default int[][] toGlobal(int x[], int y[], int X, int Y, double Sx, double Sy) {
+		for (int i = 0; i < x.length; i++)
+		{
+			x[i] = (int)(X + x[i] * Sx);
+			y[i] = (int)(Y + y[i] * Sy);
+		}
+		return new int[][] {x, y};
 	}
 }

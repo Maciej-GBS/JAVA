@@ -1,7 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class DrawPanel extends JPanel {
+	public java.util.List<XmasShape> shapes = new ArrayList<>();
+
 	public DrawPanel() {
 		setBackground(new Color(255,80,60));
 	}
@@ -13,9 +16,9 @@ public class DrawPanel extends JPanel {
 
 		g.setColor(Color.green);
 		g.setFont(new Font("Helvetica", Font.ITALIC, 18));
-		g.drawString("Ho Ho Ho Choinka", 400, 20);
+		g.drawString("Ho Ho Choinka", 420, 20);
 
-		XmasShape tree = new Choinka(500, 100, 0.5, 1.5);
-		tree.draw(g2d);
+		for (var s : shapes)
+			s.draw(g2d);
 	}
 }

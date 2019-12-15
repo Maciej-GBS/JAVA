@@ -34,9 +34,9 @@ public class Bubble implements XmasShape {
 	@Override
 	public void render(Graphics2D g2d) {
 		g2d.setColor(fillColor);
-		g2d.fillOval(0,0,100,100);
+		g2d.fillOval(0,0,50,50);
 		g2d.setColor(lineColor);
-		g2d.drawOval(0,0,100,100);
+		g2d.drawOval(0,0,50,50);
 	}
 
 	@Override
