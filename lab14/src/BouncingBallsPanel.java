@@ -9,11 +9,22 @@ public class BouncingBallsPanel extends JPanel {
     int width, height;
 
     static class Ball {
-        int x;
-        int y;
-        double vx;
-        double vy;
-        Color color;
+        int x = 10;
+        int y = 10;
+        double vx = 10;
+        double vy = 10;
+        Color color = Color.blue;
+	int size = 20;
+
+	public Ball() {}
+	public Ball(int x, int y, int size, Color color, double vx, double vy) {
+	    this.x = x;
+	    this.y = y;
+	    this.size = size;
+	    this.color = color;
+	    this.vx = vx;
+	    this.vy = vy;
+	}
 
         public void move(long t) {
             double time = t / 100.0;
@@ -22,17 +33,32 @@ public class BouncingBallsPanel extends JPanel {
         }
 
         public void bounce(int w, int h) {
-            if (x < 0 || x > w)
+	    int halfsize = size / 2;
+            if (x < halfsize) {
                 vx = -vx;
-            if (y < 0 || y > h)
+		x = halfsize;
+	    }
+	    if (x > w-halfsize) {
+                vx = -vx;
+		x = w-halfsize;
+	    }
+            if (y < halfsize) {
                 vy = -vy;
+		y = halfsize;
+	    }
+	    if (y > h-halfsize) {
+                vy = -vy;
+		y = h-halfsize;
+	    }
         }
 
         public void impulse(Ball other) {
             if (this == other)
+		// zderzenie sam ze sobą
                 return;
             double dx = x - other.x, dy = y - other.y;
-            if (dx + dy > 20)
+            if (Math.pow(dx,2) + Math.pow(dy,2) > Math.pow(size,2.1))
+		// odległość za duża na zderzenie
                 return;
             double dst = Math.sqrt(Math.pow(dx,2) + Math.pow(dy,2)),
                     nx = dx / dst, ny = dy / dst,
@@ -46,8 +72,9 @@ public class BouncingBallsPanel extends JPanel {
         }
 
         public void paint(Graphics2D g2d) {
+	    int halfsize = size / 2;
             g2d.setColor(color);
-            g2d.fillOval(x-5, y-5, 10, 10);
+            g2d.fillOval(x-halfsize, y-halfsize, size, size);
         }
     }
 
@@ -62,6 +89,7 @@ public class BouncingBallsPanel extends JPanel {
                     for (Ball b : balls) {
                         b.move(timeStep);
                         b.bounce(width, height);
+			// pętla w pętli - trzebaby zmienić strukturę przechowywania kulek
                         for (Ball other : balls)
                             b.impulse(other);
                     }
@@ -105,11 +133,6 @@ public class BouncingBallsPanel extends JPanel {
     void onPlus() {
         System.out.println("Add a ball");
         var b = new Ball();
-        b.x = 20;
-        b.y = 20;
-        b.color = new Color(8, 145,227);
-        b.vx = 5;
-        b.vy = 8;
         balls.add(b);
     }
 
@@ -119,3 +142,4 @@ public class BouncingBallsPanel extends JPanel {
             balls.remove(0);
     }
 }
+
